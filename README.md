@@ -1,5 +1,3 @@
-# MecHub_CAD
-
 ## About MecHub CAD:
 
 MecHub CAD is a simple application designed to help engineers, designers, and hobbyists transform coordinate data and images into 3D models through extrusion.
