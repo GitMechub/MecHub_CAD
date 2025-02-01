@@ -810,7 +810,8 @@ if st.session_state.extrude_button:
             ## Sketch
             col21.download_button(
                 label="Sketch Surface .stl",
-                data=open(stl_file_sketch, "rb").read(),
+                data=open(sketch_name, "rb").read(),
+                #data=open(stl_file_sketch, "rb").read(),
                 file_name=sketch_name,
                 mime="application/stl",
                 on_click=manter_extrude_button_ativo,
@@ -819,7 +820,8 @@ if st.session_state.extrude_button:
             ## Solid
             col22.download_button(
                 label="Solid .stl",
-                data=open(stl_file_solid, "rb").read(),
+                data=open(solid_name, "rb").read(),
+                #data=open(stl_file_solid, "rb").read(),
                 file_name=solid_name,
                 mime="application/stl",
                 on_click=manter_extrude_button_ativo,
