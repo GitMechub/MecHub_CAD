@@ -8,10 +8,12 @@ MecHub CAD is a simple application designed to help engineers, designers, and ho
 
 MecHub CAD offers two primary functions:
 
-1. **Coordinate-Based 3D Extrusion:**  
+1. **Coordinate-Based 3D Extrusion:**
+   [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/SMm36mVPtyY)
    Upload a file containing a series of (x, y) coordinates representing a contour. MecHub CAD will extrude this contour into a fully defined 3D shape, ready for CAD modeling and further processing.
 
-2. **Image-Based 3D Extrusion:**  
+3. **Image-Based 3D Extrusion:**
+   [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/oMfN20RiWQQ)
    Upload a .jpg, .jpeg, or .png image containing an external contour. MecHub CAD will process the image and extract the contour, generating a corresponding 3D model through extrusion.
 
 ## Key Features:
