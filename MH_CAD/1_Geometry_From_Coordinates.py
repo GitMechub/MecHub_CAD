@@ -839,7 +839,8 @@ if st.session_state.extrude_button:
                 ## Sketch
                 col21.download_button(
                     label="Sketch Surface .step",
-                    data=open(step_file_sketch, "rb").read(),
+                    #data=open(step_file_sketch, "rb").read(),
+                    data=open('sketch_MHCAD.step', "rb").read(),
                     file_name='sketch_MHCAD.step',
                     mime="application/step",
                     on_click=manter_extrude_button_ativo,
@@ -848,7 +849,8 @@ if st.session_state.extrude_button:
                 ## Solid
                 col22.download_button(
                     label="Solid .step",
-                    data=open(step_file_solid, "rb").read(),
+                    #data=open(step_file_solid, "rb").read(),
+                    data=open('solid_MHCAD.step', "rb").read(),
                     file_name='solid_MHCAD.step',
                     mime="application/step",
                     on_click=manter_extrude_button_ativo,
