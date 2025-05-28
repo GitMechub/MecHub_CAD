@@ -118,6 +118,59 @@ def reorder_clockwise(points):
     return coordinates
 
 
+def centralizar_conjunto_de_contornos(contornos):
+    if not contornos:
+        return []
+
+    # Remover contornos que são None ou vazios
+    contornos_validos = [contorno for contorno in contornos if contorno]
+
+    if not contornos_validos:
+        return []
+
+    contornos = contornos_validos
+
+    todos_os_pontos = [p for contorno in contornos for p in contorno]
+    x_coords, y_coords = zip(*todos_os_pontos)
+    x_centro = (max(x_coords) + min(x_coords)) / 2
+    y_centro = (max(y_coords) + min(y_coords)) / 2
+
+    contornos_centralizados = [
+        [(x - x_centro, y - y_centro) for (x, y) in contorno]
+        for contorno in contornos
+    ]
+    return contornos_centralizados
+
+
+def revolve_centralize_y_multiple(contours):
+  contornos_processados = []
+
+  for contour in contours:
+    novo_contorno = []
+
+    for i in range(len(contour) - 1):
+      p1 = contour[i]
+      p2 = contour[i + 1]
+
+      if p1[0] >= 0:
+        novo_contorno.append(p1)
+
+      if (p1[0] < 0 and p2[0] > 0) or (p1[0] > 0 and p2[0] < 0):
+        x1, y1 = p1
+        x2, y2 = p2
+        t = -x1 / (x2 - x1)
+        y_intersec = y1 + t * (y2 - y1)
+        novo_contorno.append((0, y_intersec))
+
+    # Último ponto
+    if contour[-1][0] >= 0:
+        novo_contorno.append(contour[-1])
+
+    contornos_processados.append(novo_contorno)
+
+  return contornos_processados
+
+
 ##CONTOUR FROM IMAGE
 
 def plot_contour(contour_id, contours):
@@ -499,8 +552,13 @@ if 'active_page_2' not in st.session_state:
     st.session_state.st_add_contours_to_remove = []
     st.session_state.st_contours_ids = []
 
-    st.session_state.st_try_smoother = True
-    st.session_state.st_length_img = 5.
+    st.session_state.st_try_smoother_img = True
+    st.session_state.st_length_img = 10.
+    st.session_state.st_extrusion_type_prompt = "basic"
+    st.session_state.st_revolve_angle_img = 360.
+    st.session_state.st_centralize_img = False
+    st.session_state.st_twist_length_img = 10.
+    st.session_state.st_twist_angle_img = 30.
 
     st.session_state.st_contour_coordinates_ = []
 
@@ -545,13 +603,42 @@ else:
 
 ## Extrusion Length
 
-length_img = col1.number_input("Extrusion Length",format='%f',step=1.,help='For basic extrusion',key='st_length_img')
+#length_img = col1.number_input("Extrusion Length",format='%f',step=1.,help='For basic extrusion',key='st_length_img')
+
+extrusion_type_img = col1.radio(
+        "Extrusion Type",
+        ["basic", "revolve","twist"],
+        key='st_extrusion_type_img', help="Revolve axis = 'y'")
+
+if extrusion_type_img == "basic":
+    length_img = col1.number_input("Extrusion Length",format='%f',step=1.,key='st_length_img')
+
+    revolve_angle_img = st.session_state['st_revolve_angle_img']
+    centralize_img = st.session_state['st_centralize_img']
+    twist_length_img = st.session_state['st_twist_length_img']
+    twist_angle_img = st.session_state['st_twist_angle_img']
+
+elif extrusion_type_img == "revolve":
+    revolve_angle_img = col1.number_input("Revolve Angle °",format='%f',step=1.,key='st_revolve_angle_img')
+    centralize_img = col1.checkbox("Centralize", help = "Rotate around the center of the object",key='st_centralize_img')
+
+    length_img = st.session_state['st_length_img']
+    twist_length_img = st.session_state['st_twist_length_img']
+    twist_angle_img = st.session_state['st_twist_angle_img']
+
+else:
+    twist_length_img = col1.number_input("Twist Extrusion Length", format='%f', step=1., key='st_twist_length_img')
+    twist_angle_img = col1.number_input("Twist Angle °",format='%f',step=1.,key='st_twist_angle_img')
+
+    length_img = st.session_state['st_length_img']
+    revolve_angle_img = st.session_state['st_revolve_angle_img']
+    centralize_img = st.session_state['st_centralize_img']
 
 ##
 
 ## Try Smoother?
 
-try_smoother = col1.toggle("Try Smoother", key='st_try_smoother')
+try_smoother = col1.toggle("Try Smoother", key='st_try_smoother_img')
 
 ##
 
@@ -560,6 +647,12 @@ try_smoother = col1.toggle("Try Smoother", key='st_try_smoother')
 if st.session_state['image_ok']:
     contour_coordinates_ = img_contour(file_bytes_opencv, st.session_state['st_contours_to_remove']) \
         if try_smoother is False else img_contour_smoother(file_bytes_opencv, st.session_state['st_contours_to_remove'])
+
+    if extrusion_type_img == "revolve" and centralize_img:
+        contour_coordinates_ = centralizar_conjunto_de_contornos(contour_coordinates_)
+        contour_coordinates_ = revolve_centralize_y_multiple(contour_coordinates_)
+    elif extrusion_type_img == "twist":
+        contour_coordinates_ = centralizar_conjunto_de_contornos(contour_coordinates_)
 
     with col1:
         plot_all_contours_closed(contour_coordinates_)
@@ -606,6 +699,13 @@ if st.session_state.extrude_button_img:
       st.session_state['st_contours_to_remove'] = contours_to_remove
       st.session_state['st_try_smoother'] = try_smoother
       st.session_state['st_length_img'] = length_img
+
+      st.session_state['st_revolve_angle_img'] = revolve_angle_img
+      st.session_state['st_centralize_img'] = centralize_img
+      st.session_state['st_twist_length_img'] = twist_length_img
+      st.session_state['st_twist_angle_img'] = twist_angle_img
+
+      st.session_state['st_extrusion_type_img'] = extrusion_type_img
   except:
       pass
 
@@ -650,22 +750,15 @@ if st.session_state.extrude_button_img:
 
             ## 3D
 
-            for contour in contour_coordinates_:
+            #modelo_combinado = cq.Workplane("XY").placeSketch(result).extrude(length_img)
 
-                if contour is None:
-                    continue
-
-                try:
-                    solido1 = cq.Workplane("XY").polyline(contour).close().extrude(length_img)
-
-                    try:
-                        modelo_combinado = modelo_combinado.union(solido1)
-                    except:
-                        modelo_combinado = solido1
-
-                except:
-                    #st.error("Error generating solid")
-                    continue
+            modelo_combinado = cq.Workplane("XY").placeSketch(result).revolve(angleDegrees=revolve_angle_img,
+                                                                              axisStart=(0, 0, 0),
+                                                                              axisEnd=(0, 1,
+                                                                                       0)) if extrusion_type_img == "revolve" else cq.Workplane(
+                "XY").placeSketch(result).twistExtrude(twist_length_img,
+                                                       twist_angle_img) if extrusion_type_img == "twist" else cq.Workplane(
+                "XY").placeSketch(result).extrude(length_img)
 
             ### Exportar como STL
             exporters.export(modelo_combinado, 'img_solid_MHCAD.stl')
