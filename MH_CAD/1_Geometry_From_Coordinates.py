@@ -608,8 +608,7 @@ else:
 
     elif extrusion_type == "revolve":
         revolve_angle_cut = col1.number_input("Revolve Angle °", format='%f', step=1., key='st_revolve_angle_cut')
-        centralize_cut = col1.checkbox("Centralize", help="Rotate around the center of the object",
-                                       key='st_centralize_cut')
+        #centralize_cut = col1.checkbox("Centralize", help="Rotate around the center of the object", key='st_centralize_cut')
 
         length_cut = st.session_state['st_length_cut']
         twist_length_cut = st.session_state['st_twist_length_cut']
@@ -684,6 +683,9 @@ if st.session_state.extrude_button:
                 extrusion_type_cut = extrusion_type
                 coordinates_cut, extrusion_type_cut, length_cut, revolve_angle_cut, revolve_axis_cut = proc_EG_input(
                     coordinates_cut, extrusion_type_cut, length_cut, revolve_angle_cut)
+
+                
+                centralize_cut = centralize
 
 
                 if extrusion_type == "revolve" and centralize:
