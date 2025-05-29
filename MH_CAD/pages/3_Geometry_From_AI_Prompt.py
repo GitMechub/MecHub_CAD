@@ -49,8 +49,8 @@ from streamlit_stl import stl_from_file
 
 import io
 
-import openai
-from openai import OpenAI
+#import openai
+#from openai import OpenAI
 
 from pydantic import BaseModel
 from typing import List, Tuple
