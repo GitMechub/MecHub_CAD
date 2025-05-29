@@ -427,7 +427,7 @@ def desativ_extrude_button():
 ############################################################
 
 
-st.title("MecHub CAD v1.0.0", anchor=False)
+st.title("MecHub CAD v2.0.0", anchor=False)
 
 st.subheader("Geometry From Coordinates", divider="gray", anchor=False,
              help='Set the geometry coordinates and extrude it by revolving through an axis or by basic extrusion. '
