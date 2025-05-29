@@ -6,7 +6,7 @@ for k, v in st.session_state.items():
 from PIL import Image
 import os
 path = os.path.dirname(__file__)
-my_file = path+'/pages/images/mechub_logo.png'
+my_file = path+'/images/mechub_logo.png'
 img = Image.open(my_file)
 
 st.set_page_config(
