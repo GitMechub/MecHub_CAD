@@ -531,7 +531,7 @@ def img_contour_smoother(img_name, contours_to_remove):
 ############################################################
 
 
-st.title("MecHub CAD v1.0.0", anchor=False)
+st.title("MecHub CAD v2.0.0", anchor=False)
 
 st.subheader("Geometry From Image", divider="gray", anchor=False,
                help='Upload a .jpg, .jpeg or .png image to create an extrusion based on its external contour.')
