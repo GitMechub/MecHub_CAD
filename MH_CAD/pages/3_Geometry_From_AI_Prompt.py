@@ -157,32 +157,42 @@ def centralizar_conjunto_de_contornos(contornos):
 
 
 def revolve_centralize_y_multiple(contours):
-  contornos_processados = []
+    contornos_processados = []
 
-  for contour in contours:
-    novo_contorno = []
+    for contour in contours:
+        novo_contorno = []
 
-    for i in range(len(contour) - 1):
-      p1 = contour[i]
-      p2 = contour[i + 1]
+        for i in range(len(contour) - 1):
+            p1 = contour[i]
+            p2 = contour[i + 1]
 
-      if p1[0] >= 0:
-        novo_contorno.append(p1)
+            if p1[0] >= 0:
+                novo_contorno.append(p1)
 
-      if (p1[0] < 0 and p2[0] > 0) or (p1[0] > 0 and p2[0] < 0):
-        x1, y1 = p1
-        x2, y2 = p2
-        t = -x1 / (x2 - x1)
-        y_intersec = y1 + t * (y2 - y1)
-        novo_contorno.append((0, y_intersec))
+            if (p1[0] < 0 and p2[0] > 0) or (p1[0] > 0 and p2[0] < 0):
+                x1, y1 = p1
+                x2, y2 = p2
+                t = -x1 / (x2 - x1)
+                y_intersec = y1 + t * (y2 - y1)
+                novo_contorno.append((0, y_intersec))
 
-    # Último ponto
-    if contour[-1][0] >= 0:
-        novo_contorno.append(contour[-1])
+        # VERIFICA INTERSEÇÃO DO ÚLTIMO COM O PRIMEIRO
+        p1 = contour[-1]
+        p2 = contour[0]
 
-    contornos_processados.append(novo_contorno)
+        if p1[0] >= 0:
+            novo_contorno.append(p1)
 
-  return contornos_processados
+        if (p1[0] < 0 and p2[0] > 0) or (p1[0] > 0 and p2[0] < 0):
+            x1, y1 = p1
+            x2, y2 = p2
+            t = -x1 / (x2 - x1)
+            y_intersec = y1 + t * (y2 - y1)
+            novo_contorno.append((0, y_intersec))
+
+        contornos_processados.append(novo_contorno)
+
+    return contornos_processados
 
 
 ##CONTOUR FROM IMAGE
