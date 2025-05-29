@@ -31,10 +31,10 @@ if 'image_ok' in st.session_state:
     except:
         pass
 
-st.header("Tutorial: Geometry From Coordinates", divider="gray", anchor=False)
+st.header("Tutorial: Geometry From Coordinates v1.0.0", divider="gray", anchor=False)
 st_player("https://youtu.be/SMm36mVPtyY")
 
-st.header("Tutorial: Geometry From Image", divider="gray", anchor=False)
+st.header("Tutorial: Geometry From Image v1.0.0", divider="gray", anchor=False)
 st_player("https://youtu.be/oMfN20RiWQQ")
 
 
