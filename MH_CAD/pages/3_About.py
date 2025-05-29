@@ -36,7 +36,7 @@ st.header("MecHub CAD v2.0.0", divider="gray", anchor=False)
 st.markdown('''
 ## About MecHub CAD:
 
-MecHub CAD is a simple application designed to help engineers, designers, and hobbyists transform coordinate data, images, or messages into 3D models through extrusion.
+MecHub CAD is a simple application designed to help engineers, designers, and hobbyists transform coordinate data, images, or AI chatbot messages into 3D models through extrusion.
 
 ## How it Works:
 
