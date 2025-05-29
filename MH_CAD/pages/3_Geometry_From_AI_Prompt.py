@@ -307,11 +307,11 @@ def manter_extrude_button_ativo_prompt():
 
 def img_contour(img_name, contours_to_remove):
 
-  img_color = cv2.imread(img_name, cv2.IMREAD_COLOR)
-  img_gray = cv2.imread(img_name, cv2.IMREAD_GRAYSCALE)
+  #img_color = cv2.imread(img_name, cv2.IMREAD_COLOR)
+  #img_gray = cv2.imread(img_name, cv2.IMREAD_GRAYSCALE)
 
-  #img_color = cv2.imdecode(img_name, cv2.IMREAD_COLOR)
-  #img_gray = cv2.imdecode(img_name, cv2.IMREAD_GRAYSCALE)
+  img_color = cv2.imdecode(img_name, cv2.IMREAD_COLOR)
+  img_gray = cv2.imdecode(img_name, cv2.IMREAD_GRAYSCALE)
 
   corner_pixel = img_gray[0, 0]  # Coordenada (0, 0) para o canto superior esquerdo
   #print(f"Intensidade do pixel no canto superior esquerdo: {corner_pixel}")
@@ -354,11 +354,11 @@ def img_contour(img_name, contours_to_remove):
 
 def img_contour_smoother(img_name, contours_to_remove):
 
-  img_color = cv2.imread(img_name, cv2.IMREAD_COLOR)
-  img_gray = cv2.imread(img_name, cv2.IMREAD_GRAYSCALE)
+  #img_color = cv2.imread(img_name, cv2.IMREAD_COLOR)
+  #img_gray = cv2.imread(img_name, cv2.IMREAD_GRAYSCALE)
 
-  #img_color = cv2.imdecode(img_name, cv2.IMREAD_COLOR)
-  #img_gray = cv2.imdecode(img_name, cv2.IMREAD_GRAYSCALE)
+  img_color = cv2.imdecode(img_name, cv2.IMREAD_COLOR)
+  img_gray = cv2.imdecode(img_name, cv2.IMREAD_GRAYSCALE)
 
   corner_pixel = img_gray[0, 0]  # Coordenada (0, 0) para o canto superior esquerdo
   #print(f"Intensidade do pixel no canto superior esquerdo: {corner_pixel}")
@@ -529,8 +529,8 @@ if st.session_state['st_message_id_list'] != []:
 
 #
 
-
-client = genai.Client(api_key=api_key)
+if api_key:
+    client = genai.Client(api_key=api_key)
 
 if user_msg or (
     st.session_state.get("generate_trigger") and
@@ -570,17 +570,28 @@ if user_msg or (
                     if part.text is not None:
                         print(part.text)
                     elif part.inline_data is not None:
-                        image = Image.open(BytesIO((part.inline_data.data)))
-                        image.save('user_msg.png')
+                        #image = Image.open(BytesIO((part.inline_data.data)))
+                        #image.save('user_msg.png')
 
-                        st.session_state['st_img_bytes_prompt'] = image
+                        #st.session_state['st_img_bytes_prompt'] = image
 
+                        # A imagem já vem como bytes — você só precisa armazenar isso
+                        img_bytes = part.inline_data.data  # Isso já é do tipo `bytes`
 
-            #file_bytes_opencv = np.asarray(bytearray(st.session_state['st_img_bytes_prompt'].read()), dtype=np.uint8)
+                        # Armazena diretamente os bytes na sessão
+                        st.session_state['st_img_bytes_prompt'] = img_bytes
 
-            contour_coordinates_ = img_contour("user_msg.png", []) \
-                if try_smoother is False else img_contour_smoother("user_msg.png",
-                                                                   [])
+                        # Para uso com OpenCV
+                        file_bytes_opencv = np.asarray(bytearray(img_bytes), dtype=np.uint8)
+
+            try:
+                contour_coordinates_ = img_contour("user_msg.png", []) \
+                    if try_smoother is False else img_contour_smoother("user_msg.png",
+                                                                       [])
+            except:
+                contour_coordinates_ = img_contour(file_bytes_opencv, []) \
+                    if try_smoother is False else img_contour_smoother(file_bytes_opencv,
+                                                                       [])
 
             if extrusion_type == "revolve" and centralize:
                 contour_coordinates_ = centralizar_conjunto_de_contornos(contour_coordinates_)
@@ -592,7 +603,9 @@ if user_msg or (
             #start_axis, end_axis = calcular_eixo_y_para_conjunto_de_contornos(contour_coordinates_)
             with st.expander('Sketch'):
                 plot_all_contours_closed(contour_coordinates_)
-                st.image("user_msg.png",width=256)
+                #st.image("user_msg.png",width=256)
+                st.image(BytesIO(img_bytes), width=256)
+
 
             st.session_state.st_message_id_list = st.session_state['st_message_id_list'] + ["user"]
             st.session_state.st_message_list = st.session_state['st_message_list'] + [user_msg]
