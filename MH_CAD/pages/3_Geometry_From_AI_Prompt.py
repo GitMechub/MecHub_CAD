@@ -582,7 +582,7 @@ if user_msg or (
                         file_bytes_opencv = np.asarray(bytearray(img_bytes), dtype=np.uint8)
 
                         # Armazena diretamente os bytes na sessão
-                        st.session_state['st_img_bytes_prompt'] = img_bytes
+                        st.session_state['st_img_bytes_prompt'] = file_bytes_opencv
 
             try:
                 img_bytes = st.session_state['st_img_bytes_prompt']
