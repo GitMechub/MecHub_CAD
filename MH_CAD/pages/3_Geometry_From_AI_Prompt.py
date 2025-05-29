@@ -578,19 +578,20 @@ if user_msg or (
                         # A imagem já vem como bytes — você só precisa armazenar isso
                         img_bytes = part.inline_data.data  # Isso já é do tipo `bytes`
 
-                        # Armazena diretamente os bytes na sessão
-                        st.session_state['st_img_bytes_prompt'] = img_bytes
-
                         # Para uso com OpenCV
                         file_bytes_opencv = np.asarray(bytearray(img_bytes), dtype=np.uint8)
 
+                        # Armazena diretamente os bytes na sessão
+                        st.session_state['st_img_bytes_prompt'] = img_bytes
+
             try:
+                img_bytes = st.session_state['st_img_bytes_prompt']
                 contour_coordinates_ = img_contour("user_msg.png", []) \
                     if try_smoother is False else img_contour_smoother("user_msg.png",
                                                                        [])
             except:
-                contour_coordinates_ = img_contour(file_bytes_opencv, []) \
-                    if try_smoother is False else img_contour_smoother(file_bytes_opencv,
+                contour_coordinates_ = img_contour(img_bytes, []) \
+                    if try_smoother is False else img_contour_smoother(img_bytes,
                                                                        [])
 
             if extrusion_type == "revolve" and centralize:
