@@ -416,10 +416,8 @@ def img_contour_smoother(img_name, contours_to_remove):
 
 st.title("MecHub CAD v2.0.0", anchor=False)
 
-st.subheader("Geometry From Coordinates", divider="gray", anchor=False,
-               help='Set the geometry coordinates and extrude it by revolving through an axis or by basic extrusion. '
-                    'You can do it manually or by uploading an .xlsx sheet with both "x" (Column A) and "y" (Column B) columns')
-
+st.subheader("Geometry From AI Prompt", divider="gray", anchor=False,
+               help='Enter a prompt describing an object, and the app (powered by Google Gemini) will automatically generate a 3D model of its external profile.')
 
 #SETUP
 
@@ -462,10 +460,6 @@ if "generate_trigger" not in st.session_state:
 
 def set_generate_flag():
     st.session_state.generate_trigger = True
-
-
-st.subheader('Extrude Geometry',help='Points must be listed in sequential order, where each point connects to the previous one.'
-               ,anchor=False)
 
 
 user_msg = st.chat_input("Say something")
