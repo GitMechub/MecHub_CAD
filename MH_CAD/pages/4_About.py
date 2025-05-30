@@ -48,14 +48,14 @@ MecHub CAD offers three primary functions:
 2. **Image-Based 3D Extrusion:**  
    Upload a .jpg, .jpeg, or .png image containing an external contour. MecHub CAD will process the image and extract the contour, generating a corresponding 3D model through extrusion.
 
-3. **Prompt-Based 3D Extrusion via AI Chatbot:** **(NEW):**   
+3. **Prompt-Based 3D Extrusion via AI Chatbot** **(NEW):**   
    Enter a prompt into the AI chatbot powered by Google Gemini. MecHub CAD will interpret the message and automatically generate a 3D model based on the described object contour.
 
 ## Key Features:
 
 - **Coordinate File Support:** Compatible with .xlsx and .csv formats for contour generation.
 - **Image Contour Extraction:** Supports common image formats (.jpg, .jpeg, .png) for smooth contour identification.
-- **(NEW)****Prompt-to-Model AI Integration:** Create 3D models directly from descriptive text prompts using Google Gemini.  
+- **(NEW)** **Prompt-to-Model AI Integration:** Create 3D models directly from descriptive text prompts using Google Gemini.  
 - **Precise Extrusion:** Easily generate complex 3D models from contours.
 - **CAD Integration:** Export clean, ready-to-use models for CAD software.
 - **User-Friendly Interface:** Simplifies the transformation from 2D to 3D with minimal input requirements.
