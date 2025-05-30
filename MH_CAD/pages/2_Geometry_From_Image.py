@@ -345,8 +345,9 @@ def show_uploading_recommendations():
     st.markdown("""
     - This app reads the external contour of images to create an extrusion.
     - The image file must be in **.jpg**, **.jpeg** or **.png** format.
-    - The background must be **BLACK** or **WHITE**, contrasting with the image contour in the center.  
-    - Higher image quality leads to better contour quality. 
+    - The background must be **BLACK** or **WHITE**, contrasting with the image contour in the center. 
+    - Try adjusting the contrast, gamma, and other settings using Canva or similar tools to get something close to the object's silhouette.
+    - Higher image quality leads to better contour quality.
     - Fewer colors and shadows in the image produce better results.  
     - **:red[See the example image below:]**
     """)
