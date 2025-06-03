@@ -37,4 +37,7 @@ st_player("https://youtu.be/SMm36mVPtyY")
 st.header("Tutorial: Geometry From Image v1.0.0", divider="gray", anchor=False)
 st_player("https://youtu.be/oMfN20RiWQQ")
 
+st.header("Tutorial: Geometry From AI Prompt v2.0.0", divider="gray", anchor=False)
+st_player("https://youtu.be/Q2ejx9sEX00")
+
 
