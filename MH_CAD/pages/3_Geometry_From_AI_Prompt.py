@@ -561,7 +561,7 @@ if user_msg or (
                 role = "Give the contour coordinates in python needed to CadQuery draw the object"
                 response = client.models.generate_content(
                     #model="gemini-2.0-flash-preview-image-generation",
-                    model = "gemini-2.5-flash-image"
+                    model = "gemini-2.5-flash-image",
                     contents=f'A 2D silhouette of {user_msg} on a white background, perspective view, no shadows',
                     config=types.GenerateContentConfig(
                       response_modalities=['TEXT', 'IMAGE']
